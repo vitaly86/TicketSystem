@@ -8,6 +8,5 @@ public class Start {
         IDandPasswords idandPasswords = new IDandPasswords();
 
         LoginPage loginPage = new LoginPage(idandPasswords.getLoginInfo());
-
     }
 }
