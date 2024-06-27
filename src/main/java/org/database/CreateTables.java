@@ -1,10 +1,10 @@
 package org.database;
 
-import org.Utils.PasswordUtils;
+import org.utils.PasswordUtils;
 
 import java.sql.*;
 
-public class createTables extends CreateDB{
+public class CreateTables extends CreateDB{
 
     private final static String DB_URL = CreateDB.DB_URL + "helpdesk";
     private final static String USER = CreateDB.USER;
@@ -49,9 +49,9 @@ public class createTables extends CreateDB{
                     " REFERENCES Users (uid) ON UPDATE CASCADE"
     };
 
-    private final static queryDB setInitAdmin = new queryDB();
+    private final static QueryDB setInitAdmin = new QueryDB();
 
-    public createTables(){
+    public CreateTables(){
         super();
         try(
                 Connection conn_tb = DriverManager.getConnection(DB_URL, USER, PASS);

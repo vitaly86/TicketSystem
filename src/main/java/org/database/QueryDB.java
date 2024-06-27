@@ -2,7 +2,7 @@ package org.database;
 
 import java.sql.*;
 
-public class queryDB {
+public class QueryDB {
 
     private final static String DB_URL = CreateDB.DB_URL + "helpdesk";
     private final static String USER = CreateDB.USER;
