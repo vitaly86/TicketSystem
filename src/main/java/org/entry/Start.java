@@ -1,12 +1,11 @@
 package org.entry;
 
 import mvc.controller.LogInController;
-import org.database.CreateTables;
+import org.database.Schema;
 
 public class Start {
     public static void main(String[] args) {
-
-        new CreateTables();
+        new Schema();
         new LogInController();
     }
 }

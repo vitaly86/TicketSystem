@@ -1,14 +1,10 @@
 package mvc.model;
 
-import org.database.CreateDB;
+import org.utils.DBConstants;
 
 import java.sql.*;
 
-public class UsersModel {
-
-    private final static String DB_URL = CreateDB.DB_URL + "helpdesk";
-    private final static String USER = CreateDB.USER;
-    private final static String PASS = CreateDB.PASS;
+public class UsersModel extends DBConstants {
 
     private final static String getFirstAdmin = "SELECT COUNT(*) AS rowcount from Users";
 
@@ -16,7 +12,7 @@ public class UsersModel {
         boolean noAdmin = true;
 
         try(
-                Connection conn_admin = DriverManager.getConnection(DB_URL, USER, PASS);
+                Connection conn_admin = DriverManager.getConnection(URL + DB, USER, PASS);
                 Statement stmt = conn_admin.createStatement();
                 ResultSet rs = stmt.executeQuery(getFirstAdmin);
         ) {
