@@ -1,8 +1,10 @@
-package org.database;
+package mvc.model;
+
+import org.database.CreateDB;
 
 import java.sql.*;
 
-public class QueryDB {
+public class UsersModel {
 
     private final static String DB_URL = CreateDB.DB_URL + "helpdesk";
     private final static String USER = CreateDB.USER;

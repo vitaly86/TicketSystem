@@ -7,9 +7,9 @@ import java.sql.Statement;
 
 public class CreateDB {
 
-    protected static final String DB_URL= "jdbc:mysql://localhost:3306/";
-    protected static final String USER = "root";
-    protected static final String PASS = "";
+    public static final String DB_URL= "jdbc:mysql://localhost:3306/";
+    public static final String USER = "root";
+    public static final String PASS = "";
 
     public CreateDB() {
         try (

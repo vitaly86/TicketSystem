@@ -1,9 +1,9 @@
-package org.entry;
+package mvc.model;
 
 import java.util.HashMap;
 
 public class IDandPasswords {
-    HashMap<String, String> logininfo = new HashMap<String, String>();
+    HashMap<String, String> logininfo = new HashMap<>();
 
     public IDandPasswords() {
         this.logininfo.put("Bro", "Pizza");
@@ -11,7 +11,7 @@ public class IDandPasswords {
         this.logininfo.put("BroCode", "abc123");
     }
 
-    protected HashMap<String, String> getLoginInfo() {
+    public HashMap<String, String> getLogInInfo() {
         return logininfo;
     }
 }

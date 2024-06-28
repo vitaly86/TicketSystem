@@ -1,4 +1,4 @@
-package org.login;
+package mvc.view;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-public class LoginPage implements ActionListener {
+public class LogInTemplate implements ActionListener {
 
     JFrame frame = new JFrame();
     JButton loginButton = new JButton("Login");
@@ -19,9 +19,9 @@ public class LoginPage implements ActionListener {
     JLabel userPasswordLabel = new JLabel("password:");
     JLabel messageLabel = new JLabel();
 
-    HashMap<String, String> logininfo = new HashMap<String, String>();
+    HashMap<String, String> logininfo;
 
-    public LoginPage(HashMap<String, String> loginInfoOriginal) {
+    public LogInTemplate(HashMap<String, String> loginInfoOriginal) {
 
         logininfo = loginInfoOriginal;
 
@@ -59,10 +59,10 @@ public class LoginPage implements ActionListener {
     @Override
     public void actionPerformed(@NotNull ActionEvent e) {
 
-            if(e.getSource() == resetButton){
-                userIDField.setText("");
-                userPasswordField.setText("");
-            }
+        if(e.getSource() == resetButton){
+            userIDField.setText("");
+            userPasswordField.setText("");
+        }
 
         if(e.getSource() == loginButton){
             String userID = userIDField.getText();
@@ -73,7 +73,7 @@ public class LoginPage implements ActionListener {
                     messageLabel.setForeground(Color.green);
                     messageLabel.setText("Login Successful");
                     frame.dispose();
-                    WelcomePage welcomePage = new WelcomePage(userID);
+                    WelcomeTemplate welcomePage = new WelcomeTemplate(userID);
                 }else {
                     messageLabel.setForeground(Color.red);
                     messageLabel.setText("Wrong Password");

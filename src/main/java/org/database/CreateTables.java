@@ -1,5 +1,6 @@
 package org.database;
 
+import mvc.model.UsersModel;
 import org.utils.PasswordUtils;
 
 import java.sql.*;
@@ -49,7 +50,7 @@ public class CreateTables extends CreateDB{
                     " REFERENCES Users (uid) ON UPDATE CASCADE"
     };
 
-    private final static QueryDB setInitAdmin = new QueryDB();
+    private final static UsersModel setInitAdmin = new UsersModel();
 
     public CreateTables(){
         super();

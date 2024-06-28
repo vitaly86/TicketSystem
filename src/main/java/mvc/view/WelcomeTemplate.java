@@ -1,15 +1,13 @@
-package org.login;
+package mvc.view;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class WelcomePage {
-
+public class WelcomeTemplate {
     JFrame frame = new JFrame();
     JLabel welcomeLabel = new JLabel("Hello!");
 
-    WelcomePage(String userID){
-
+    public WelcomeTemplate(String userID){
         welcomeLabel.setBounds(0,0,200,35);
         welcomeLabel.setFont(new Font(null, Font.PLAIN, 25));
         welcomeLabel.setText("Hello " + userID);
@@ -21,3 +19,4 @@ public class WelcomePage {
         frame.setVisible(true);
     }
 }
+
