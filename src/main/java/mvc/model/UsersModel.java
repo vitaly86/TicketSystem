@@ -1,29 +1,24 @@
 package mvc.model;
 
-import org.utils.DBConstants;
+import org.utils.templates.CRUD.CUDTemplate;
+import org.utils.templates.CRUD.RTemplate;
+import org.utils.templates.CRUD.SelectOperation;
+import org.utils.templates.CRUD.UpdateOperation;
 
-import java.sql.*;
-
-public class UsersModel extends DBConstants {
+public class UsersModel {
 
     private final static String getFirstAdmin = "SELECT COUNT(*) AS rowcount from Users";
+    private final static String insertFirstAdmin = "INSERT INTO Users (username, role, password) VALUES (?, ?, ?)";
 
     public boolean noInitSchema(){
-        boolean noAdmin = true;
-
-        try(
-                Connection conn_admin = DriverManager.getConnection(URL + DB, USER, PASS);
-                Statement stmt = conn_admin.createStatement();
-                ResultSet rs = stmt.executeQuery(getFirstAdmin);
-        ) {
-             if(rs.next()){
-                 int count = rs.getInt("rowcount");
-                 noAdmin = (count == 0);
-             }
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-
+        boolean noAdmin;
+        RTemplate findAdmin = new SelectOperation();
+        noAdmin = (findAdmin.execute(getFirstAdmin, "no-admin") == 0);
         return noAdmin;
+    }
+
+    public static void storeFirstAdmin(){
+        CUDTemplate firstAdmin = new UpdateOperation();
+        firstAdmin.executePrepare(insertFirstAdmin, "first-admin");
     }
 }

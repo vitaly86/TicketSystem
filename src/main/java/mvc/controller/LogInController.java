@@ -12,7 +12,7 @@ public class LogInController {
         new LogInTemplate(new IDandPasswords().getLogInInfo());
     }
 
-    private class IDandPasswords {
+    private static class IDandPasswords {
         HashMap<String, String> logininfo = new HashMap<>();
 
         public IDandPasswords() {

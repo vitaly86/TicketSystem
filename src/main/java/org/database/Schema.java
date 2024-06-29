@@ -1,28 +1,20 @@
 package org.database;
 
 import mvc.model.UsersModel;
-import org.utils.DBConstants;
-import org.utils.PasswordUtils;
+import org.utils.templates.db.DatabaseTemplate;
+import org.utils.templates.db.ExecuteDB;
+import org.utils.templates.db.ExecuteTB;
 
-import java.sql.*;
-
-public class Schema extends DBConstants {
+public class Schema {
 
     public Schema() {
-        try (
-                Connection conn = DriverManager.getConnection(URL, USER, PASS);
-                Statement stmt = conn.createStatement();
-        ){
-            String sql = "CREATE DATABASE IF NOT EXISTS helpdesk";
-            stmt.executeUpdate(sql);
-            System.out.println("Database created successfully...");
-            new CreateTables();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String sqlDB = "CREATE DATABASE IF NOT EXISTS helpdesk";
+        DatabaseTemplate executeDB = new ExecuteDB(sqlDB);
+        executeDB.execute(ExecuteDB.URL);
+        new SchemaTables();
     }
 
-    public static class CreateTables {
+    public static class SchemaTables{
 
         private final static String[] createTableSQLs = {
                 "CREATE TABLE IF NOT EXISTS Notes (" +
@@ -65,65 +57,17 @@ public class Schema extends DBConstants {
 
         private final static UsersModel setInitAdmin = new UsersModel();
 
-        public CreateTables(){
-            try(
-                    Connection conn_tb = DriverManager.getConnection(URL + DB, USER, PASS);
-                    Statement stmt = conn_tb.createStatement();
-            ){
-                for(String sqlTB: createTableSQLs){
-                    stmt.executeUpdate(sqlTB);
-                }
+        public SchemaTables() {
 
-                System.out.println("All Tables created successfully!");
+            DatabaseTemplate executeTB = new ExecuteTB(createTableSQLs);
+            executeTB.execute(ExecuteTB.URL + ExecuteTB.DB);
+            System.out.println("All Tables created successfully!");
 
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-
-            try(
-                    Connection conn_fk = DriverManager.getConnection(URL, USER, PASS);
-                    Statement stmt = conn_fk.createStatement();
-            ) {
-                if (setInitAdmin.noInitSchema()) {
-
-                    for (String fKey : createForeignKeysSQLs) {
-                        stmt.executeUpdate(fKey);
-                    }
-
-                    System.out.println("Foreign Keys created successfully.");
-
-                    storeFirstAdmin();
-
-                }
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-
-        private static void storeFirstAdmin(){
-            String adminName = "admin";
-            String adminRole = "admin";
-            String adminPassword = "abc123";
-            String adminHashedPassword = "";
-            try {
-                adminHashedPassword = PasswordUtils.hashPassword(adminPassword);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String sql = "INSERT INTO Users (username, role, password) VALUES (?, ?, ?)";
-
-            try(
-                    Connection conn_admin = DriverManager.getConnection(URL + DB, USER, PASS);
-                    PreparedStatement pstmt = conn_admin.prepareStatement(sql);
-            ){
-                pstmt.setString(1, adminName);
-                pstmt.setString(2, adminRole);
-                pstmt.setString(3, adminHashedPassword);
-                pstmt.executeUpdate();
-                System.out.println("First Admin is Set-On");
-            }catch(SQLException ex){
-                ex.printStackTrace();
+            if (setInitAdmin.noInitSchema()) {
+                DatabaseTemplate executeFK = new ExecuteTB(createForeignKeysSQLs);
+                executeFK.execute(ExecuteTB.URL + ExecuteTB.DB);
+                System.out.println("Foreign Keys created successfully.");
+                UsersModel.storeFirstAdmin();
             }
         }
     }
