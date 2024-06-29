@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class UpdateOperation extends CUDTemplate{
 
     @Override
-    protected void executeInsert(PreparedStatement stmt) throws SQLException {
+    protected void executeInsert(PreparedStatement pstmt) throws SQLException {
         String adminName = "admin";
         String adminRole = "admin";
         String adminPassword = "abc123";
@@ -17,10 +17,10 @@ public class UpdateOperation extends CUDTemplate{
         }catch (Exception e){
             e.printStackTrace();
         }
-        stmt.setString(1, adminName);
-        stmt.setString(2, adminRole);
-        stmt.setString(3, adminHashedPassword);
-        stmt.executeUpdate();
+        pstmt.setString(1, adminName);
+        pstmt.setString(2, adminRole);
+        pstmt.setString(3, adminHashedPassword);
+        pstmt.executeUpdate();
         System.out.println("First Admin is Set-On");
     }
 }

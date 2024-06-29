@@ -11,10 +11,10 @@ public abstract class CUDTemplate {
     public void executePrepare(String sql, String operation) {
         try (
                 Connection conn = getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);
+                PreparedStatement pstmt = conn.prepareStatement(sql);
         ) {
             if("first-admin".equals(operation)){
-                executeInsert(stmt);
+                executeInsert(pstmt);
             }else throw new IllegalArgumentException("Unknown Operation: " + operation);
         }
         catch (SQLException e){
@@ -26,5 +26,5 @@ public abstract class CUDTemplate {
         return DriverManager.getConnection(DBURL, USER, PASS);
     }
 
-    protected abstract void executeInsert(PreparedStatement stmt) throws SQLException;
+    protected abstract void executeInsert(PreparedStatement pstmt) throws SQLException;
 }
