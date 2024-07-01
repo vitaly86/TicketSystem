@@ -18,7 +18,5 @@ public class Start {
         UsersModel logInModel = new UsersModel();
         LogInTemplate logInView = new LogInTemplate();
         new LogInController(logInModel, logInView);
-
-
     }
 }
