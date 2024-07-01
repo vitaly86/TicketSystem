@@ -3,6 +3,7 @@ package mvc.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
 public class LogInTemplate extends JFrame {
 
@@ -74,8 +75,17 @@ public class LogInTemplate extends JFrame {
         return resetButton;
     }
 
-    public void addLogInListener(ActionListener listenForButtons){
+    public JPasswordField getUserPasswordField() {
+        return userPasswordField;
+    }
+
+    public void addLogInActionListener(ActionListener listenForButtons){
         loginButton.addActionListener(listenForButtons);
         resetButton.addActionListener(listenForButtons);
+    }
+
+    public void addLogInKeyListener(KeyListener listenForKey){
+        userIDField.addKeyListener(listenForKey);
+        userPasswordField.addKeyListener(listenForKey);
     }
 }

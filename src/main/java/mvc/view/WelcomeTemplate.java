@@ -19,7 +19,7 @@ public class WelcomeTemplate extends  JFrame{
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) (screenSize.width * 0.8);
         int screenHeight = (int) (screenSize.height * 0.8);
-        panelOptionsWidth = (int)(screenWidth * 0.15);
+        panelOptionsWidth = (int)(screenWidth * 0.20);
 
         /*
           Create Label for Admin Window Options
