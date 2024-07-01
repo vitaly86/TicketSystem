@@ -49,7 +49,7 @@ public class LogInController {
                             messageLabel.setForeground(Color.green);
                             messageLabel.setText("Login Successful");
                             viewLogIn.dispose();
-                            WelcomeTemplate welcomePage = new WelcomeTemplate(userID);
+                            SwingUtilities.invokeLater(WelcomeTemplate::new);
                         }else {
                             messageLabel.setForeground(Color.red);
                             messageLabel.setText("Wrong Password");

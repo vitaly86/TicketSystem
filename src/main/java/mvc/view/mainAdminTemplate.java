@@ -6,11 +6,12 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class WelcomeTemplate extends  JFrame{
+public class mainAdminTemplate extends JFrame{
 
+    private JPanel MainPanel;
     private static int panelOptionsWidth;
 
-    public WelcomeTemplate(){
+    public mainAdminTemplate(){
 
         /*
           Find the current Window Size
@@ -133,5 +134,10 @@ public class WelcomeTemplate extends  JFrame{
             return card;
         }
     }
+    public static void main(String[] args) {
+        new mainAdminTemplate();
+    }
 }
+
+
 

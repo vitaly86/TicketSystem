@@ -1,10 +1,7 @@
 package mvc.view;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LogInTemplate extends JFrame {
@@ -17,10 +14,10 @@ public class LogInTemplate extends JFrame {
 
     public LogInTemplate() {
 
-        JLabel userIDLabel = new JLabel("userID:");
+        JLabel userIDLabel = new JLabel("UserID:");
         userIDLabel.setBounds(50, 100, 75, 25);
 
-        JLabel userPasswordLabel = new JLabel("password:");
+        JLabel userPasswordLabel = new JLabel("Password:");
         userPasswordLabel.setBounds(50, 150, 75, 25);
 
         messageLabel.setBounds(125, 250, 250, 35);
@@ -43,10 +40,12 @@ public class LogInTemplate extends JFrame {
         this.add(loginButton);
         this.add(resetButton);
 
+        this.setTitle("Log In");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setSize(420, 420);
         this.setLayout(null);
+        this.setResizable(false);
         this.setVisible(true);
     }
 
