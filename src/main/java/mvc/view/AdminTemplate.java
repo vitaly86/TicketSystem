@@ -124,7 +124,7 @@ public class AdminTemplate extends JFrame{
 
     private static class GeneralPanel extends JPanel{
 
-        public GeneralPanel(String[] options) throws HeadlessException {
+        public GeneralPanel(String @NotNull [] options) throws HeadlessException {
 
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

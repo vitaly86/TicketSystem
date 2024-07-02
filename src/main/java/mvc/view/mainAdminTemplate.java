@@ -115,6 +115,7 @@ public class mainAdminTemplate extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.pack();
+        this.setResizable(false);
         this.setVisible(true);
     }
 
@@ -208,8 +209,45 @@ public class mainAdminTemplate extends JFrame{
             contentPanel.add(currentCard);
             contentPanel.add(createUserBTN);
 
-            JPanel currentUser = userContainer();
-            contentPanel.add(currentUser);
+            JPanel userContainer = userContainer();
+            userContainer.setBounds(50, 200, adminPanelOptionsWidth - 100, (int)(screenHeight * 0.3));
+
+            userContainer.add(userCardContainer("Admin","Admin"));
+            userContainer.add(userCardContainer("Admin1","Admin1"));
+            userContainer.add(userCardContainer("Admin2","Admin2"));
+            userContainer.add(userCardContainer("Admin3","Admin3"));
+            userContainer.add(userCardContainer("Admin4","Admin4"));
+            userContainer.add(userCardContainer("Admin","Admin"));
+            userContainer.add(userCardContainer("Admin1","Admin1"));
+            userContainer.add(userCardContainer("Admin2","Admin2"));
+            userContainer.add(userCardContainer("Admin3","Admin3"));
+            userContainer.add(userCardContainer("Admin4","Admin4"));
+            userContainer.add(userCardContainer("Admin","Admin"));
+            userContainer.add(userCardContainer("Admin1","Admin1"));
+            userContainer.add(userCardContainer("Admin2","Admin2"));
+            userContainer.add(userCardContainer("Admin3","Admin3"));
+            userContainer.add(userCardContainer("Admin4","Admin4"));
+            userContainer.add(userCardContainer("Admin","Admin"));
+            userContainer.add(userCardContainer("Admin1","Admin1"));
+            userContainer.add(userCardContainer("Admin2","Admin2"));
+            userContainer.add(userCardContainer("Admin3","Admin3"));
+            userContainer.add(userCardContainer("Admin4","Admin4"));
+            userContainer.add(userCardContainer("Admin","Admin"));
+            userContainer.add(userCardContainer("Admin1","Admin1"));
+            userContainer.add(userCardContainer("Admin2","Admin2"));
+            userContainer.add(userCardContainer("Admin3","Admin3"));
+            userContainer.add(userCardContainer("Admin4","Admin4"));
+            userContainer.add(userCardContainer("Admin","Admin"));
+            userContainer.add(userCardContainer("Admin1","Admin1"));
+            userContainer.add(userCardContainer("Admin2","Admin2"));
+            userContainer.add(userCardContainer("Admin3","Admin3"));
+            userContainer.add(userCardContainer("Admin4","Admin4"));
+
+//            JScrollPane userPaneScrollBar = new JScrollPane(userContainer);
+//            userPaneScrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//            userPaneScrollBar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+            contentPanel.add(userContainer);
 
             contentPanel.setPreferredSize(new Dimension(adminPanelOptionsWidth, (int)(screenHeight * 0.9)));
             contentPanel.setBackground(Color.LIGHT_GRAY);
@@ -221,9 +259,20 @@ public class mainAdminTemplate extends JFrame{
         JPanel userInfos = new JPanel();
         userInfos.setLayout(new BoxLayout(userInfos, BoxLayout.Y_AXIS));
         userInfos.setBackground(Color.WHITE);
-//        userInfos.setPreferredSize(new Dimension(adminPanelOptionsWidth, (int)(screenHeight * 0.3)));
-        userInfos.setBounds(50, 200, adminPanelOptionsWidth - 100, (int)(screenHeight * 0.3));
         return userInfos;
+    }
+
+    private static @NotNull JPanel userCardContainer(String userID, String userRole){
+        JPanel userCard = new JPanel();
+        userCard.setLayout(new GridLayout(1, 2));
+
+        JLabel idLabel = new JLabel(userID);
+        JLabel roleLabel = new JLabel("The user has the role " + userRole);
+
+        userCard.add(idLabel);
+        userCard.add(roleLabel);
+
+        return userCard;
     }
 
     public static void main(String[] args) {
