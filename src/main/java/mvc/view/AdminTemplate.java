@@ -8,14 +8,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class mainAdminTemplate extends JFrame{
+public class AdminTemplate extends JFrame{
 
-    private JPanel MainPanel;
-    private static int screenHeight;
     private static int sidePanelOptionsWidth;
-    private static int adminPanelOptionsWidth;
 
-    public mainAdminTemplate(){
+    public AdminTemplate(){
 
         /*
           Find the current Window Size
@@ -23,9 +20,9 @@ public class mainAdminTemplate extends JFrame{
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) (screenSize.width * 0.8);
-        screenHeight = (int) (screenSize.height * 0.8);
+        int screenHeight = (int) (screenSize.height * 0.8);
         sidePanelOptionsWidth = (int)(screenWidth * 0.20);
-        adminPanelOptionsWidth = (int) (screenWidth * 0.80);
+        int adminPanelOptionsWidth = (int) (screenWidth * 0.80);
 
         /*
           Create Label for Admin Window Options
@@ -83,9 +80,9 @@ public class mainAdminTemplate extends JFrame{
         containerPanel.setBackground(Color.GRAY);
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
         containerPanel.add(generalLabel);
-        containerPanel.add(new FixedPanel(generalList));
+        containerPanel.add(new GeneralPanel(generalList));
         containerPanel.add(administrationLabel);
-        containerPanel.add(new FixedPanel(adminOptionsList));
+        containerPanel.add(new GeneralPanel(adminOptionsList));
         containerPanel.add(tamponPanel);
         containerPanel.add(endPanel);
 
@@ -102,6 +99,13 @@ public class mainAdminTemplate extends JFrame{
         sidePanel.add(containerPanel);
 
         /*
+           Create Admin Panel for Content
+        */
+
+        JPanel adminPanel = new JPanel();
+        adminPanel.setPreferredSize(new Dimension(adminPanelOptionsWidth, screenHeight));
+
+        /*
             Add Side Panel to the Window Frame
          */
 
@@ -109,7 +113,7 @@ public class mainAdminTemplate extends JFrame{
         Container mainContainer = this.getContentPane();
         mainContainer.setLayout(new FlowLayout());
         mainContainer.add(sidePanel);
-        mainContainer.add(new UserCardContainer());
+        mainContainer.add(adminPanel);
         this.setTitle("Welcome");
         this.setSize(screenWidth, screenHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,15 +122,14 @@ public class mainAdminTemplate extends JFrame{
         this.setVisible(true);
     }
 
-    private static class FixedPanel extends JPanel{
+    private static class GeneralPanel extends JPanel{
 
-        public FixedPanel(String[] options) throws HeadlessException {
+        public GeneralPanel(String[] options) throws HeadlessException {
 
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
             for (String option : options) {
-                JPanel card = createCard(option);
-                this.add(card);
+                this.add(createCard(option));
             }
         }
 
@@ -175,61 +178,5 @@ public class mainAdminTemplate extends JFrame{
             return card;
         }
     }
-
-    private static class UserCardContainer extends JPanel{
-
-        public UserCardContainer() {
-            JPanel upperPanel = new JPanel();
-            upperPanel.setPreferredSize(new Dimension(adminPanelOptionsWidth, (int)(screenHeight * 0.1)));
-            upperPanel.setBackground(Color.WHITE);
-
-            JPanel contentPanel = createUserBox();
-
-            this.setLayout(new FlowLayout(FlowLayout.CENTER));
-            this.add(upperPanel);
-            this.add(contentPanel);
-            this.setPreferredSize(new Dimension(adminPanelOptionsWidth, screenHeight));
-        }
-
-        private static @NotNull JPanel createUserBox() {
-            JLabel currentCard = new JLabel("Users");
-            currentCard.setBounds(50, 50, 100, 100);
-            currentCard.setForeground(Color.BLACK);
-            currentCard.setFont(new Font(null, Font.BOLD, 30));
-
-            JButton createUserBTN = new JButton("Create User");
-            createUserBTN.setBounds(adminPanelOptionsWidth - 170, 50, 120, 50);
-            createUserBTN.setFocusable(false);
-            createUserBTN.setBackground(Color.GRAY);
-            createUserBTN.setForeground(Color.WHITE);
-
-            JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(null);
-            contentPanel.add(currentCard);
-            contentPanel.add(createUserBTN);
-
-            JPanel currentUser = userContainer();
-            contentPanel.add(currentUser);
-
-            contentPanel.setPreferredSize(new Dimension(adminPanelOptionsWidth, (int)(screenHeight * 0.9)));
-            contentPanel.setBackground(Color.LIGHT_GRAY);
-            return contentPanel;
-        }
-    }
-
-    private static @NotNull JPanel userContainer(){
-        JPanel userInfos = new JPanel();
-        userInfos.setLayout(new BoxLayout(userInfos, BoxLayout.Y_AXIS));
-        userInfos.setBackground(Color.WHITE);
-//        userInfos.setPreferredSize(new Dimension(adminPanelOptionsWidth, (int)(screenHeight * 0.3)));
-        userInfos.setBounds(50, 200, adminPanelOptionsWidth - 100, (int)(screenHeight * 0.3));
-        return userInfos;
-    }
-
-    public static void main(String[] args) {
-        new mainAdminTemplate();
-    }
 }
-
-
 
