@@ -21,8 +21,8 @@ public class LogInTemplate extends JFrame {
         JLabel userPasswordLabel = new JLabel("Password:");
         userPasswordLabel.setBounds(50, 150, 75, 25);
 
-        messageLabel.setBounds(125, 250, 250, 35);
-        messageLabel.setFont(new Font(null, Font.ITALIC, 25));
+        messageLabel.setBounds(125, 250, 250, 25);
+        messageLabel.setFont(new Font(null, Font.ITALIC, 20));
 
         userIDField.setBounds(125,100,200,25);
         userPasswordField.setBounds(125,150,200,25);
@@ -84,8 +84,8 @@ public class LogInTemplate extends JFrame {
         resetButton.addActionListener(listenForButtons);
     }
 
-    public void addLogInKeyListener(KeyListener listenForKey){
-        userIDField.addKeyListener(listenForKey);
-        userPasswordField.addKeyListener(listenForKey);
+    public void addLogInKeyListener(KeyListener listenForKeys){
+        userIDField.addKeyListener(listenForKeys);
+        userPasswordField.addKeyListener(listenForKeys);
     }
 }

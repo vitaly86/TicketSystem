@@ -1,5 +1,6 @@
 package mvc.controller;
 
+import mvc.gui.admin.AdminMainTemplate;
 import mvc.gui.admin.UserCardDetails;
 import mvc.model.UsersModel;
 import mvc.gui.LogInTemplate;
@@ -53,7 +54,7 @@ public class LogInController {
                             messageLabel.setForeground(Color.green);
                             messageLabel.setText("Login Successful");
                             viewLogIn.dispose();
-                            SwingUtilities.invokeLater(UserCardDetails::new);
+                            SwingUtilities.invokeLater(AdminMainTemplate::new);
                         }else {
                             messageLabel.setForeground(Color.red);
                             messageLabel.setText("Wrong Password");
@@ -89,7 +90,7 @@ public class LogInController {
                             messageLabel.setForeground(Color.green);
                             messageLabel.setText("Login Successful");
                             viewLogIn.dispose();
-                            SwingUtilities.invokeLater(UserCardDetails::new);
+                            SwingUtilities.invokeLater(AdminMainTemplate::new);
                         }else {
                             messageLabel.setForeground(Color.red);
                             messageLabel.setText("Wrong Password");

@@ -1,4 +1,4 @@
-package org.utils.stylesCSS;
+package src.resources.css;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package mvc.gui;
 
 import org.jetbrains.annotations.NotNull;
-import org.utils.stylesCSS.ShadowPanel;
+import src.resources.css.ShadowPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
