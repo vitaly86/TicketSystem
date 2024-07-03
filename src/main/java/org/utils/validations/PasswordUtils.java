@@ -1,4 +1,4 @@
-package org.utils;
+package org.utils.validations;
 
 import org.jetbrains.annotations.NotNull;
 

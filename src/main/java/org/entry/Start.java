@@ -2,7 +2,7 @@ package org.entry;
 
 import mvc.controller.LogInController;
 import mvc.model.UsersModel;
-import mvc.view.LogInTemplate;
+import mvc.gui.LogInTemplate;
 import org.database.Schema;
 
 public class Start {

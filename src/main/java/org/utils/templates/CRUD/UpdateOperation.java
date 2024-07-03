@@ -1,6 +1,6 @@
 package org.utils.templates.CRUD;
 
-import org.utils.PasswordUtils;
+import org.utils.validations.PasswordUtils;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 

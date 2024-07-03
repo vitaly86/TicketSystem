@@ -1,4 +1,4 @@
-package mvc.view;
+package mvc.gui.admin;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -8,27 +8,39 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class AdminTemplate extends JFrame{
+public abstract class AdminMainTemplate extends JFrame{
 
-    private static int sidePanelOptionsWidth;
+    protected JPanel sidePanel;
 
-    public AdminTemplate(){
+    protected static int screenWidth;
+    protected static int screenHeight;
+    protected static int sidePanelOptionsWidth;
+    protected static int adminPanelOptionsWidth;
+
+    public AdminMainTemplate(){
+
+        /*
+            Define Local Variables
+        */
+
+        JLabel appLabel, generalLabel, administrationLabel;
+        JPanel tamponPanel, endPanel, containerPanel;
 
         /*
           Find the current Window Size
          */
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) (screenSize.width * 0.8);
-        int screenHeight = (int) (screenSize.height * 0.8);
+        screenWidth = (int) (screenSize.width * 0.8);
+        screenHeight = (int) (screenSize.height * 0.8);
         sidePanelOptionsWidth = (int)(screenWidth * 0.20);
-        int adminPanelOptionsWidth = (int) (screenWidth * 0.80);
+        adminPanelOptionsWidth = (int) (screenWidth * 0.80);
 
         /*
           Create Label for Admin Window Options
          */
 
-        JLabel appLabel = new JLabel("TICKET SYSTEM APP");
+        appLabel = new JLabel("TICKET SYSTEM APP");
         appLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         appLabel.setForeground(Color.WHITE);
         appLabel.setFont(new Font(null, Font.BOLD, 20));
@@ -38,7 +50,7 @@ public class AdminTemplate extends JFrame{
           Create General Label
          */
 
-        JLabel generalLabel = new JLabel("GENERAL");
+        generalLabel = new JLabel("GENERAL");
         generalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         generalLabel.setForeground(Color.WHITE);
         generalLabel.setFont(new Font(null, Font.ITALIC, 15));
@@ -48,7 +60,7 @@ public class AdminTemplate extends JFrame{
           Create Administration Label
          */
 
-        JLabel administrationLabel = new JLabel("ADMINISTRATION");
+        administrationLabel = new JLabel("ADMINISTRATION");
         administrationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         administrationLabel.setForeground(Color.WHITE);
         administrationLabel.setFont(new Font(null, Font.ITALIC, 15));
@@ -58,7 +70,7 @@ public class AdminTemplate extends JFrame{
            Create Tampon Panel for Components
         */
 
-        JPanel tamponPanel = new JPanel();
+        tamponPanel = new JPanel();
         tamponPanel.setPreferredSize(new Dimension(sidePanelOptionsWidth, 100));
         tamponPanel.setBackground(Color.GRAY);
 
@@ -66,7 +78,7 @@ public class AdminTemplate extends JFrame{
            Create Tampon Panel 2 for Components
         */
 
-        JPanel endPanel = new JPanel();
+        endPanel = new JPanel();
         endPanel.setPreferredSize(new Dimension(sidePanelOptionsWidth, 100));
         endPanel.setBackground(Color.BLACK);
 
@@ -74,15 +86,15 @@ public class AdminTemplate extends JFrame{
            Create Container Panel for Admin Options
         */
 
-        JPanel containerPanel = new JPanel();
+        containerPanel = new JPanel();
         String[] generalList = {"Dashboard", "Tickets"};
         String[] adminOptionsList = {"Statuses", "Priorities", "Users", "User roles"};
         containerPanel.setBackground(Color.GRAY);
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
         containerPanel.add(generalLabel);
-        containerPanel.add(new GeneralPanel(generalList));
+        containerPanel.add(new FixedPanel(generalList));
         containerPanel.add(administrationLabel);
-        containerPanel.add(new GeneralPanel(adminOptionsList));
+        containerPanel.add(new FixedPanel(adminOptionsList));
         containerPanel.add(tamponPanel);
         containerPanel.add(endPanel);
 
@@ -91,7 +103,7 @@ public class AdminTemplate extends JFrame{
            Create Side Panel for Components
         */
 
-        JPanel sidePanel = new JPanel();
+        sidePanel = new JPanel();
         sidePanel.setPreferredSize(new Dimension(sidePanelOptionsWidth, screenHeight));
         sidePanel.setBackground(Color.BLACK);
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
@@ -99,32 +111,14 @@ public class AdminTemplate extends JFrame{
         sidePanel.add(containerPanel);
 
         /*
-           Create Admin Panel for Content
-        */
-
-        JPanel adminPanel = new JPanel();
-        adminPanel.setPreferredSize(new Dimension(adminPanelOptionsWidth, screenHeight));
-
-        /*
             Add Side Panel to the Window Frame
          */
 
-        this.setLayout(new BorderLayout());
-        Container mainContainer = this.getContentPane();
-        mainContainer.setLayout(new FlowLayout());
-        mainContainer.add(sidePanel);
-        mainContainer.add(adminPanel);
-        this.setTitle("Welcome");
-        this.setSize(screenWidth, screenHeight);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.pack();
-        this.setVisible(true);
     }
 
-    private static class GeneralPanel extends JPanel{
+    private static class FixedPanel extends JPanel{
 
-        public GeneralPanel(String @NotNull [] options) throws HeadlessException {
+        public FixedPanel(String @NotNull [] options) throws HeadlessException {
 
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -176,6 +170,39 @@ public class AdminTemplate extends JFrame{
                 }
             });
             return card;
+        }
+    }
+    protected abstract static class UserCardContainer extends JPanel{
+
+        protected JPanel contentPanel;
+
+        public UserCardContainer(String cardName) {
+            JPanel upperPanel = new JPanel();
+            upperPanel.setPreferredSize(new Dimension(adminPanelOptionsWidth, (int)(screenHeight * 0.1)));
+            upperPanel.setBackground(Color.WHITE);
+
+            JPanel resultContentPanel = createUserBox(cardName);
+
+            setLayout(new FlowLayout(FlowLayout.CENTER));
+            add(upperPanel);
+            add(resultContentPanel);
+            setPreferredSize(new Dimension(adminPanelOptionsWidth, screenHeight));
+        }
+
+        protected JPanel createUserBox(String cardName) {
+
+            JLabel currentCard = new JLabel(cardName);
+            currentCard.setBounds(50, 50, 100, 100);
+            currentCard.setForeground(Color.BLACK);
+            currentCard.setFont(new Font(null, Font.BOLD, 30));
+
+            contentPanel = new JPanel();
+            contentPanel.setLayout(null);
+            contentPanel.add(currentCard);
+
+            contentPanel.setPreferredSize(new Dimension(adminPanelOptionsWidth, (int)(screenHeight * 0.9)));
+            contentPanel.setBackground(Color.LIGHT_GRAY);
+            return contentPanel;
         }
     }
 }
