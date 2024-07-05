@@ -1,12 +1,15 @@
 package mvc.gui.admin;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class AdminMainTemplate extends JFrame{
 
@@ -16,6 +19,10 @@ public class AdminMainTemplate extends JFrame{
     public static int sidePanelOptionsWidth = (int)(screenWidth * 0.20);
     public static int adminPanelOptionsWidth = (int) (screenWidth * 0.80);
 
+    private static final ArrayList<JPanel> availableCards = new ArrayList<>();
+    private static MainGUIContainer currentCardState = new MainGUIContainer("Overview");
+    private static Container mainContainer;
+
     public AdminMainTemplate(){
 
         /*
@@ -23,7 +30,7 @@ public class AdminMainTemplate extends JFrame{
         */
 
         JLabel appLabel, generalLabel, administrationLabel;
-        JPanel tamponPanel, endPanel, containerPanel;
+        JPanel tamponPanel, endPanel;
 
         /*
           Create Label for Admin Window Options
@@ -75,17 +82,18 @@ public class AdminMainTemplate extends JFrame{
            Create Container Panel for Admin Options
         */
 
-        containerPanel = new JPanel();
-        String[] generalList = {"Dashboard", "Tickets"};
+        JPanel containerPanel = new JPanel();
+        String[] generalOptionsList = {"Dashboard", "Tickets"};
         String[] adminOptionsList = {"Statuses", "Priorities", "Users", "User roles"};
         containerPanel.setBackground(Color.GRAY);
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
         containerPanel.add(generalLabel);
-        containerPanel.add(new FixedPanel(generalList));
+        containerPanel.add(new MenuPanel(generalOptionsList));
         containerPanel.add(administrationLabel);
-        containerPanel.add(new FixedPanel(adminOptionsList));
+        containerPanel.add(new MenuPanel(adminOptionsList));
         containerPanel.add(tamponPanel);
         containerPanel.add(endPanel);
+        getHoverEffects();
 
 
         /*
@@ -103,11 +111,10 @@ public class AdminMainTemplate extends JFrame{
             Add Side Panel to the Window Frame
          */
 
-        this.setLayout(new BorderLayout());
-        Container mainContainer = this.getContentPane();
-        mainContainer.setLayout(new FlowLayout());
+        this.setLayout(new FlowLayout());
+        mainContainer = this.getContentPane();
         mainContainer.add(sidePanel);
-        mainContainer.add(new UserCardDetails("Users"));
+        mainContainer.add(currentCardState);
 
         this.setTitle("Welcome");
         this.setSize(screenWidth, screenHeight);
@@ -116,22 +123,24 @@ public class AdminMainTemplate extends JFrame{
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
-
     }
 
-    private static class FixedPanel extends JPanel{
+    private static class MenuPanel extends JPanel{
 
-        public FixedPanel(String @NotNull [] options) throws HeadlessException {
+        public MenuPanel(String @NotNull [] options) throws HeadlessException {
 
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
             for (String option : options) {
-                this.add(createCard(option));
+                JPanel actuallyCard = createCard(option);
+                availableCards.add(actuallyCard);
+                this.add(actuallyCard);
             }
         }
 
         private @NotNull JPanel createCard(String text){
             JPanel card = new JPanel(new BorderLayout());
+
             card.setPreferredSize(new Dimension(sidePanelOptionsWidth, 100));
             card.setMaximumSize(new Dimension(sidePanelOptionsWidth, 100));
             card.setMinimumSize(new Dimension(sidePanelOptionsWidth, 100));
@@ -139,40 +148,120 @@ public class AdminMainTemplate extends JFrame{
 
             JLabel label = new JLabel(text);
             label.setForeground(Color.WHITE);
+            label.setOpaque(false);
             label.setFont(new Font(null, Font.PLAIN, 15));
             label.setBorder(new EmptyBorder(10, 10, 10, 0));
-
             card.add(label, BorderLayout.WEST);
 
-            card.addMouseListener(new MouseListener() {
+//            card.addMouseListener(Listener.addListeners(card));
+
+            return card;
+        }
+    }
+
+    private static class Listener {
+
+        @Contract(value = "_ -> new", pure = true)
+        public static @NotNull MouseAdapter addListeners(JPanel menuCard){
+
+            return new MouseAdapter() {
+
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    new SwingWorker<Void, Void>(){
 
-                }
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            Thread.sleep(2000);
+                            return null;
+                        }
 
-                @Override
-                public void mousePressed(MouseEvent e) {
+                        @Override
+                        protected void done() {
 
-                }
+                            String[] optionsList = {"Dashboard", "Tickets", "Statuses", "Priorities", "Users", "User roles"};
 
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
+                            for(String option : optionsList){
+                                switch (option){
+                                    case "Dashboard" -> SwingUtilities.invokeLater(() -> {
+                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Dashboard")) {
+                                            mainContainer.remove(currentCardState);
+                                            currentCardState = new MainGUIContainer("Dashboard");
+                                            mainContainer.add(currentCardState);
+                                            mainContainer.revalidate();
+                                            mainContainer.repaint();
+                                        }
+                                    });
+                                    case "Tickets" -> SwingUtilities.invokeLater(() -> {
+                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Tickets")) {
+                                            mainContainer.remove(currentCardState);
+                                            currentCardState = new MainGUIContainer("Tickets");
+                                            mainContainer.add(currentCardState);
+                                            mainContainer.revalidate();
+                                            mainContainer.repaint();
+                                        }
+                                    });
+                                    case "Statuses" -> SwingUtilities.invokeLater(() -> {
+                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Statuses")) {
+                                            mainContainer.remove(currentCardState);
+                                            currentCardState = new MainGUIContainer("Statuses");
+                                            mainContainer.add(currentCardState);
+                                            mainContainer.revalidate();
+                                            mainContainer.repaint();
+                                        }
+                                    });
+                                    case "Priorities" -> SwingUtilities.invokeLater(() -> {
+                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Priorities")) {
+                                            mainContainer.remove(currentCardState);
+                                            currentCardState = new MainGUIContainer("Priorities");
+                                            mainContainer.add(currentCardState);
+                                            mainContainer.revalidate();
+                                            mainContainer.repaint();
+                                        }
+                                    });
+                                    case "Users" -> SwingUtilities.invokeLater(() -> {
+                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Users")) {
+                                            mainContainer.remove(currentCardState);
+                                            currentCardState = new UserCardDetails("Users");
+                                            mainContainer.add(currentCardState);
+                                            mainContainer.revalidate();
+                                            mainContainer.repaint();
+                                        }
+                                    });
+                                    case "User roles" -> SwingUtilities.invokeLater(() -> {
+                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("User roles")) {
+                                            mainContainer.remove(currentCardState);
+                                            currentCardState = new MainGUIContainer("User roles");
+                                            mainContainer.add(currentCardState);
+                                            mainContainer.revalidate();
+                                            mainContainer.repaint();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }.execute();
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    card.setBackground(Color.BLACK);
-                    card.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    menuCard.setBackground(Color.BLACK);
+                    menuCard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    card.setBackground(Color.GRAY);
-                    card.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    menuCard.setBackground(Color.GRAY);
+                    menuCard.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
-            });
-            return card;
+            };
+        }
+    }
+
+    private static void getHoverEffects(){
+
+        for (JPanel availableCard : availableCards) {
+            availableCard.addMouseListener(Listener.addListeners(availableCard));
         }
     }
 }

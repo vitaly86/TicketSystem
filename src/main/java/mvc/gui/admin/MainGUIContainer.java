@@ -3,18 +3,18 @@ package mvc.gui.admin;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class MainGUIContainer extends JPanel {
+public class MainGUIContainer extends JPanel {
 
     protected JPanel contentPanel;
 
     public MainGUIContainer(String cardLabel) {
-        JPanel upperPanel = new JPanel();
+        JPanel upperPanel = new JPanel(new BorderLayout());
         upperPanel.setPreferredSize(new Dimension(AdminMainTemplate.adminPanelOptionsWidth,
                 (int)(AdminMainTemplate.screenHeight * 0.1)));
         upperPanel.setBackground(Color.WHITE);
 
         JLabel currentCard = new JLabel(cardLabel);
-        currentCard.setBounds(50, 50, 100, 100);
+        currentCard.setBounds(50, 50, 200, 100);
         currentCard.setForeground(Color.BLACK);
         currentCard.setFont(new Font(null, Font.BOLD, 30));
 

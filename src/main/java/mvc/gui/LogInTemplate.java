@@ -75,10 +75,6 @@ public class LogInTemplate extends JFrame {
         return resetButton;
     }
 
-    public JPasswordField getUserPasswordField() {
-        return userPasswordField;
-    }
-
     public void addLogInActionListener(ActionListener listenForButtons){
         loginButton.addActionListener(listenForButtons);
         resetButton.addActionListener(listenForButtons);
