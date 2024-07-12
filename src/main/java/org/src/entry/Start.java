@@ -9,20 +9,24 @@
 
 package org.src.entry;
 
+import org.jetbrains.annotations.NotNull;
 import org.mvc.controller.LogInController;
+
+import java.lang.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.PrivilegedAction;
 
 import org.mvc.model.UsersModel;
 import org.mvc.gui.LogInTemplate;
 import org.src.database.Schema;
 
 
-public class Start extends ClassLoader {
+public class Start {
 
-    public Start(ClassLoader parent) {
-        super(parent);
-    }
+//    public Start(ClassLoader parent) {
+//        super(parent);
+//    }
 
 //    // Public method to call the protected findLoadedClass method using reflection
 //    public Class<?> findLoadedClass(String name) {
@@ -43,69 +47,61 @@ public class Start extends ClassLoader {
 
     public static void main(String[] args) {
 
-//        Start customClassLoader = new Start(ClassLoader.getSystemClassLoader());
+//        /*
+//        Make findLoadedClass() method visible to VisualVM
+//         */
 //
 //        try {
-//            // Load a class using the custom class loader
-//            Class<?> loadedClass = Class.forName("java.lang.String", true, customClassLoader);
+//            // Step 1: Get the Class object for the abstract class
+//            Class<?> loaderClass = ClassLoader.class;
 //
-//            // Check if the class is loaded using the custom findLoadedClass method
-//            Class<?> foundClass = customClassLoader.findLoadedClass("java.lang.String");
+//            // Step 2: Retrieve the Method object for the static final method
+//            Method loaderMethod = loaderClass.getDeclaredMethod("findLoadedClass", String.class);
 //
-//            if (foundClass != null) {
-//                System.out.println("Class found: " + foundClass.getName());
-//            } else {
-//                System.out.println("Class not found.");
-//            }
-//        } catch (ClassNotFoundException e) {
+//            // Step 3: Make the method accessible if necessary
+//            loaderMethod.setAccessible(true);
+//
+//            // Step 4: Invoke the method (since it's static, no instance is needed)
+//            loaderMethod.invoke(null, "Hello World!");
+//
+//        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
-        /*
-        Make visible to VisualVM
-         */
-
-//        CustomClassLoaderTry customLoader = new CustomClassLoaderTry(Start.class.getClassLoader());
+//
+//        Start customLoader = new Start(ClassLoader.getSystemClassLoader());
 //
 //        try {
+//
 //            // Load a class using NewClassLoader
-//            Class<?> schemaVM = customLoader.loadClass("org.src.database.Schema");
-//            Class<?> logInModelVM = customLoader.loadClass("org.mvc.model.UsersModel");
-//            Class<?> logInTemplateVM = customLoader.loadClass("org.mvc.gui.LogInTemplate");
+//            Class<?> clazzSchema = Class.forName("org.src.database.Schema", true, customLoader);
+//            Class<?> clazzLogInModel = Class.forName("org.mvc.model.UsersModel", true, customLoader);
+//            Class<?> clazzLogInView = Class.forName("org.mvc.gui.LogInTemplate", true, customLoader);
+//            Class<?> clazzLogInController = Class.forName("org.mvc.controller.LogInController", true, customLoader);
 //
-//            /*
-//          Create Database
-//         */
-//            new Schema();
+//            Class<?> foundClazzSchema = customLoader.findLoadedClass("org.src.database.Schema");
 //
-//        /*
-//          User Anmeldung Fenster
-//         */
-//            UsersModel logInModel = new UsersModel();
-//            LogInTemplate logInView = new LogInTemplate();
-//            new LogInController(logInModel, logInView);
+//            // Get Constructors
+//
+//            // Create Database
+//
+//            Constructor<?> schemaConstructor = clazzSchema.getDeclaredConstructor();
+//            Object schemaInstance = schemaConstructor.newInstance();
+//            Schema schema = (Schema) schemaInstance;
+//
+//            //User Anmeldung Fenster
+//
+//            final Object logInControllerInstance = getObject(clazzLogInModel, clazzLogInView, clazzLogInController);
+//            LogInController logInController = (LogInController) logInControllerInstance;
 //
 //        } catch (ClassNotFoundException e) {
 //            System.err.println("Class not found: " + e.getMessage());
+//        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+//            throw new RuntimeException(e);
 //        }
 
-//        try {
-//            // Load the class that contains the protected final method (assuming it's loaded by system class loader)
-//            Class<?> clazz = Class.forName("java.lang.ClassLoader");
-//
-//            // Get the declared method named "myProtectedFinalMethod" with appropriate parameter types
-//            Method method = clazz.getDeclaredMethod("findLoadedClass", String.class);
-//
-//            // Ensure the method is accessible (bypass access checks)
-//            method.setAccessible(true);
-//
-//        } catch (ClassNotFoundException | NoSuchMethodException e) {
-//            e.printStackTrace();
-//        }
-
-        /*
+         /*
           Create Database
-        */
+         */
         new Schema();
 
         /*
@@ -114,5 +110,20 @@ public class Start extends ClassLoader {
         UsersModel logInModel = new UsersModel();
         LogInTemplate logInView = new LogInTemplate();
         new LogInController(logInModel, logInView);
+    }
+
+    private static @NotNull Object getObject(@NotNull Class<?> clazzLogInModel, @NotNull Class<?> clazzLogInView, @NotNull Class<?> clazzLogInController)
+            throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Constructor<?> logInModelConstructor = clazzLogInModel.getDeclaredConstructor();
+        Object logInModelInstance = logInModelConstructor.newInstance();
+        UsersModel logInModel = (UsersModel) logInModelInstance;
+
+        Constructor<?> logInViewConstructor = clazzLogInView.getDeclaredConstructor();
+        Object logInViewInstance = logInViewConstructor.newInstance();
+        LogInTemplate logInView = (LogInTemplate) logInViewInstance;
+
+
+        Constructor<?> logInControllerConstructor = clazzLogInController.getConstructor(UsersModel.class, LogInTemplate.class);
+        return logInControllerConstructor.newInstance(logInModel, logInView);
     }
 }
