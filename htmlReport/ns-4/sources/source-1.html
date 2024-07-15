@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UsersModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.mvc.model</a>
+</div>
+
+<h1>Coverage Summary for Class: UsersModel (org.mvc.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UsersModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.4%
+  </span>
+  <span class="absValue">
+    (4/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.mvc.model;
+&nbsp;
+&nbsp;import org.utils.templates.CRUD.CUDTemplate;
+&nbsp;import org.utils.templates.CRUD.RTemplate;
+&nbsp;import org.utils.templates.CRUD.SelectOperation;
+&nbsp;import org.utils.templates.CRUD.UpdateOperation;
+&nbsp;
+<b class="fc">&nbsp;public class UsersModel {</b>
+&nbsp;
+&nbsp;    private final static String insertFirstAdmin = &quot;INSERT INTO Users (username, role, password) VALUES (?, ?, ?)&quot;;
+&nbsp;
+&nbsp;    private final static String getFirstAdmin = &quot;SELECT COUNT(*) AS rowcount from Users&quot;;
+&nbsp;    private final static String getUserCredetials = &quot;SELECT password FROM users WHERE username = ?&quot;;
+&nbsp;
+&nbsp;
+&nbsp;    public boolean noInitSchema(){
+&nbsp;        boolean noAdmin;
+<b class="fc">&nbsp;        RTemplate findAdmin = new SelectOperation();</b>
+<b class="fc">&nbsp;        noAdmin = ((int)findAdmin.execute(getFirstAdmin, &quot;no-admin&quot;) == 0);</b>
+<b class="fc">&nbsp;        return noAdmin;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void storeFirstAdmin(){
+<b class="nc">&nbsp;        CUDTemplate firstAdmin = new UpdateOperation();</b>
+<b class="nc">&nbsp;        firstAdmin.executePrepare(insertFirstAdmin, &quot;first-admin&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String authenticate(String username){
+&nbsp;        String currentPass;
+<b class="nc">&nbsp;        RTemplate displayUserPass = new SelectOperation();</b>
+<b class="nc">&nbsp;        currentPass = (String) displayUserPass.executePrepared(getUserCredetials, &quot;user-pass&quot;, username);</b>
+&nbsp;//        System.out.println(currentPass);
+<b class="nc">&nbsp;        return currentPass;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-09 23:03</div>
+</div>
+</body>
+</html>

@@ -97,7 +97,7 @@ public class UserCardDetails extends MainGUIContainer{
         ImageIcon editUserIcon = null;
 
         try{
-            Image icon = Icons.editUserBTN();
+            Image icon = Icons.accessBTN("/icons/edit-user.jpg");
             Image resizedIcon = icon.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             editUserIcon = new ImageIcon(resizedIcon);
         }catch(IOException e){

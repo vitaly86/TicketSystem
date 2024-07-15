@@ -1,0 +1,268 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UserCardDetails</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.mvc.gui.admin</a>
+</div>
+
+<h1>Coverage Summary for Class: UserCardDetails (org.mvc.gui.admin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserCardDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/70)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.mvc.gui.admin;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.internal.css.ShadowPanel;
+&nbsp;import org.internal.html.HTMLButton;
+&nbsp;
+&nbsp;import javax.imageio.ImageIO;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.Border;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.MouseWheelListener;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;import static java.awt.Color.GRAY;
+&nbsp;
+&nbsp;public class UserCardDetails extends MainGUIContainer{
+&nbsp;
+&nbsp;    public UserCardDetails(String cardLabel) {
+<b class="nc">&nbsp;        super(cardLabel);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public @NotNull JPanel createUserBox() {
+&nbsp;
+<b class="nc">&nbsp;        super.createUserBox();</b>
+&nbsp;
+<b class="nc">&nbsp;        JButton createUserBTN = new HTMLButton(&quot;Create User&quot;, GRAY);</b>
+<b class="nc">&nbsp;        createUserBTN.setBounds(AdminMainTemplate.adminPanelOptionsWidth - 170, 50, 120, 50);</b>
+&nbsp;
+<b class="nc">&nbsp;        JPanel userContainer = userContainer();</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int i = 0; i &lt; 20; i++){</b>
+&nbsp;
+&nbsp;            /*
+&nbsp;              Box.createRigidArea(): adds vertical spacing between components in userContainer
+&nbsp;             */
+&nbsp;
+<b class="nc">&nbsp;            userContainer.add(Box.createRigidArea(new Dimension(0, 10)));</b>
+<b class="nc">&nbsp;            userContainer.add(userCardContainer(i + 1 + &quot;. &quot; + &quot;Admin&quot; + i,&quot;Admin&quot;));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        JScrollPane scrollPane = getFastScrollPane(userContainer);</b>
+&nbsp;
+<b class="nc">&nbsp;        contentPanel.add(createUserBTN);</b>
+<b class="nc">&nbsp;        contentPanel.add(scrollPane);</b>
+&nbsp;
+<b class="nc">&nbsp;        return contentPanel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static @NotNull JScrollPane getFastScrollPane(JPanel userContainer) {
+<b class="nc">&nbsp;        JScrollPane scrollPane = new JScrollPane(userContainer);</b>
+&nbsp;
+<b class="nc">&nbsp;        MouseWheelListener fastScrollListener = e -&gt; {</b>
+<b class="nc">&nbsp;            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();</b>
+<b class="nc">&nbsp;            int rotation = e.getWheelRotation();</b>
+<b class="nc">&nbsp;            int unitToScroll = e.getScrollAmount() * 5;</b>
+<b class="nc">&nbsp;            int newValue = verticalScrollBar.getValue() + (rotation * unitToScroll);</b>
+<b class="nc">&nbsp;            verticalScrollBar.setValue(newValue);</b>
+&nbsp;        };
+<b class="nc">&nbsp;        scrollPane.addMouseWheelListener(fastScrollListener);</b>
+&nbsp;
+<b class="nc">&nbsp;        scrollPane.setBounds(50, 200, AdminMainTemplate.adminPanelOptionsWidth - 100,</b>
+&nbsp;                (int)(AdminMainTemplate.screenHeight * 0.3));
+<b class="nc">&nbsp;        return scrollPane;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static @NotNull JPanel userContainer(){
+<b class="nc">&nbsp;        JPanel userInfos = new JPanel();</b>
+<b class="nc">&nbsp;        userInfos.setLayout(new BoxLayout(userInfos, BoxLayout.Y_AXIS));</b>
+<b class="nc">&nbsp;        userInfos.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        return userInfos;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static @NotNull ShadowPanel userCardContainer(String userID, String userRole) {
+<b class="nc">&nbsp;        ShadowPanel userCard = new ShadowPanel();</b>
+<b class="nc">&nbsp;        userCard.setLayout(new GridLayout(1, 2));</b>
+<b class="nc">&nbsp;        userCard.setPreferredSize(new Dimension(AdminMainTemplate.adminPanelOptionsWidth - 120, 100));</b>
+<b class="nc">&nbsp;        userCard.setBorder(BorderFactory.createLineBorder(Color.WHITE));</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        JLabel idLabel = new JLabel(userID);</b>
+<b class="nc">&nbsp;        idLabel.setFont(new Font(null, Font.BOLD, 17));</b>
+<b class="nc">&nbsp;        idLabel.setBorder(new EmptyBorder(0, 25, 0, 0));</b>
+&nbsp;
+<b class="nc">&nbsp;        String modifiedUserRole = &quot;&lt;html&gt;&quot;</b>
+&nbsp;                + &quot;The user has the role: &quot; +
+&nbsp;                &quot;&lt;span style=&#39;font-size:15px; color: blue; font-style:italic&#39;&gt;&quot;
+&nbsp;                + userRole +
+&nbsp;                &quot;&lt;/span&gt;&quot; +
+&nbsp;                &quot;&lt;/html&gt;&quot;;
+&nbsp;
+<b class="nc">&nbsp;        JLabel contentRoleLabel = new JLabel(modifiedUserRole);</b>
+&nbsp;
+<b class="nc">&nbsp;        JLabel editText = new JLabel(&quot;Edit User&quot;);</b>
+&nbsp;//        editText.setBorder(new EmptyBorder(0, 0, 0, 50));
+&nbsp;
+<b class="nc">&nbsp;        ImageIcon editUserIcon = null;</b>
+<b class="nc">&nbsp;        String editIconPath = &quot;org.src\\main\\java\\org.src\\resources\\icons\\edit-user.jpg&quot;;</b>
+<b class="nc">&nbsp;        File imageFile = new File(editIconPath);</b>
+&nbsp;
+<b class="nc">&nbsp;        if(imageFile.exists()){</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                Image icon = ImageIO.read(imageFile);</b>
+<b class="nc">&nbsp;                Image resizedIcon = icon.getScaledInstance(60, 60, Image.SCALE_SMOOTH);</b>
+<b class="nc">&nbsp;                editUserIcon = new ImageIcon(resizedIcon);</b>
+<b class="nc">&nbsp;            }catch(IOException e){</b>
+<b class="nc">&nbsp;                e.printStackTrace();</b>
+&nbsp;            }
+&nbsp;        }else{
+<b class="nc">&nbsp;            System.out.println(&quot;Image file not found at: &quot; + editIconPath);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        JButton editUserBTN = getBorderButton(editUserIcon);</b>
+&nbsp;
+<b class="nc">&nbsp;        JPanel editBTNContainer = new JPanel();</b>
+<b class="nc">&nbsp;        editBTNContainer.setLayout(new BoxLayout(editBTNContainer, BoxLayout.X_AXIS));</b>
+<b class="nc">&nbsp;        editBTNContainer.add(Box.createHorizontalGlue());</b>
+<b class="nc">&nbsp;        editBTNContainer.add(editText);</b>
+<b class="nc">&nbsp;        editBTNContainer.add(Box.createRigidArea(new Dimension(15, 0)));</b>
+<b class="nc">&nbsp;        editBTNContainer.add(editUserBTN);</b>
+<b class="nc">&nbsp;        editBTNContainer.add(Box.createHorizontalGlue());</b>
+&nbsp;
+<b class="nc">&nbsp;        userCard.add(idLabel);</b>
+<b class="nc">&nbsp;        userCard.add(contentRoleLabel);</b>
+<b class="nc">&nbsp;        userCard.add(editBTNContainer);</b>
+&nbsp;
+<b class="nc">&nbsp;        return userCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static @NotNull JButton getBorderButton(ImageIcon editUserIcon) {
+<b class="nc">&nbsp;        JButton editUserBTN = new JButton(editUserIcon);</b>
+<b class="nc">&nbsp;        editUserBTN.setPreferredSize(new Dimension(60, 60));</b>
+&nbsp;//        editUserBTN.setBorder(new LineBorder(Color.GRAY, 2));
+<b class="nc">&nbsp;        editUserBTN.setMargin(new Insets(0,0,0,0));</b>
+&nbsp;
+<b class="nc">&nbsp;        Border paddingBorder = BorderFactory.createEmptyBorder(0,0,0,0);</b>
+<b class="nc">&nbsp;        Border currentBTNBorder = editUserBTN.getBorder();</b>
+&nbsp;
+<b class="nc">&nbsp;        if(currentBTNBorder != null){</b>
+<b class="nc">&nbsp;            editUserBTN.setBorder(BorderFactory.createCompoundBorder(currentBTNBorder, paddingBorder));</b>
+&nbsp;        }else{
+<b class="nc">&nbsp;            editUserBTN.setBorder(paddingBorder);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        editUserBTN.setBorderPainted(true);</b>
+<b class="nc">&nbsp;        editUserBTN.setFocusPainted(false);</b>
+<b class="nc">&nbsp;        editUserBTN.setContentAreaFilled(false);</b>
+<b class="nc">&nbsp;        return editUserBTN;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-09 23:03</div>
+</div>
+</body>
+</html>

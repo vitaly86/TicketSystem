@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Schema</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.database</a>
+</div>
+
+<h1>Coverage Summary for Class: Schema (org.database)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Schema</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Schema$SchemaTables</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.database;
+&nbsp;
+&nbsp;import org.utils.templates.db.DatabaseTemplate;
+&nbsp;import org.utils.templates.db.ExecuteDB;
+&nbsp;import org.utils.templates.db.ExecuteTB;
+&nbsp;
+&nbsp;public class Schema {
+&nbsp;
+<b class="fc">&nbsp;    public Schema() {</b>
+<b class="fc">&nbsp;        String sqlDB = &quot;CREATE DATABASE IF NOT EXISTS helpdesk&quot;;</b>
+<b class="fc">&nbsp;        DatabaseTemplate executeDB = new ExecuteDB(sqlDB);</b>
+<b class="fc">&nbsp;        executeDB.execute(ExecuteDB.URL);</b>
+<b class="fc">&nbsp;        new SchemaTables();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static class SchemaTables{
+&nbsp;
+<b class="fc">&nbsp;        private final static String[] createTableSQLs = {</b>
+&nbsp;
+&nbsp;                &quot;CREATE TABLE IF NOT EXISTS Users (&quot; +
+&nbsp;                        &quot;uid INT(4) AUTO_INCREMENT PRIMARY KEY, &quot; +
+&nbsp;                        &quot; username VARCHAR(50) UNIQUE NOT NULL, &quot; +
+&nbsp;                        &quot; role ENUM(\&quot;User\&quot;, \&quot;Supporter\&quot;, \&quot;Admin\&quot;) NOT NULL DEFAULT \&quot;User\&quot;, &quot; +
+&nbsp;                        &quot; password VARCHAR(255) NOT NULL&quot; +
+&nbsp;                        &quot;);&quot;,
+&nbsp;
+&nbsp;                &quot;CREATE TABLE IF NOT EXISTS Tickets (&quot; +
+&nbsp;                        &quot; tid INT(10) AUTO_INCREMENT PRIMARY KEY, &quot; +
+&nbsp;                        &quot; beschreibung VARCHAR(1500) NOT NULL, &quot; +
+&nbsp;                        &quot; category ENUM(\&quot;E-Mail\&quot;, \&quot;Windows\&quot;, \&quot;Hardware\&quot;, \&quot;Citrix\&quot;, \&quot;Software\&quot;, \&quot;Sonstiges\&quot;) NOT NULL, &quot; +
+&nbsp;                        &quot; priority ENUM(\&quot;3-niedrig\&quot;, \&quot;2-mittel\&quot;, \&quot;1-hoch\&quot;) NOT NULL, &quot; +
+&nbsp;                        &quot; zeitstempel TIMESTAMP NOT NULL DEFAULT current_timestamp(), &quot; +
+&nbsp;                        &quot; status ENUM(\&quot;Neu\&quot;, \&quot;In Bearbeitung\&quot;, \&quot;Fertig\&quot;) NOT NULL DEFAULT \&quot;Neu\&quot;, &quot; +
+&nbsp;                        &quot; title VARCHAR(150) NOT NULL, &quot; +
+&nbsp;                        &quot; ersteller INT(4) NOT NULL, &quot; +
+&nbsp;                        &quot; bearbeiter INT(4) NOT NULL, \n&quot; +
+&nbsp;                        &quot; CONSTRAINT fk_tickets_users FOREIGN KEY (ersteller) REFERENCES Users (uid) ON UPDATE CASCADE&quot; +
+&nbsp;                        &quot;);&quot;,
+&nbsp;
+&nbsp;                &quot;CREATE TABLE IF NOT EXISTS Notes (&quot; +
+&nbsp;                        &quot;nid INT(2) AUTO_INCREMENT PRIMARY KEY, &quot; +
+&nbsp;                        &quot; ntid INT(4) NOT NULL, &quot; +
+&nbsp;                        &quot; nuid INT(4) NOT NULL, &quot; +
+&nbsp;                        &quot; text VARCHAR(255) NOT NULL, &quot; +
+&nbsp;                        &quot; CONSTRAINT fk_notes_users FOREIGN KEY (nuid) REFERENCES Users (uid) ON UPDATE CASCADE, &quot; +
+&nbsp;                        &quot; CONSTRAINT fk_notes_ticket FOREIGN KEY (ntid) REFERENCES Tickets (tid) ON UPDATE CASCADE&quot; +
+&nbsp;                        &quot;);&quot;
+&nbsp;        };
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        public SchemaTables() {</b>
+<b class="fc">&nbsp;            DatabaseTemplate executeTB = new ExecuteTB(createTableSQLs);</b>
+<b class="fc">&nbsp;            executeTB.execute(ExecuteTB.URL + ExecuteTB.DB);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-09 23:03</div>
+</div>
+</body>
+</html>

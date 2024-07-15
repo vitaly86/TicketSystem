@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MainGUIContainer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.mvc.gui.admin</a>
+</div>
+
+<h1>Coverage Summary for Class: MainGUIContainer (org.mvc.gui.admin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MainGUIContainer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.mvc.gui.admin;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;
+&nbsp;public class MainGUIContainer extends JPanel {
+&nbsp;
+&nbsp;    protected JPanel contentPanel;
+&nbsp;
+<b class="nc">&nbsp;    public MainGUIContainer(String cardLabel) {</b>
+<b class="nc">&nbsp;        JPanel upperPanel = new JPanel(new BorderLayout());</b>
+<b class="nc">&nbsp;        upperPanel.setPreferredSize(new Dimension(AdminMainTemplate.adminPanelOptionsWidth,</b>
+&nbsp;                (int)(AdminMainTemplate.screenHeight * 0.1)));
+<b class="nc">&nbsp;        upperPanel.setBackground(Color.WHITE);</b>
+&nbsp;
+<b class="nc">&nbsp;        JLabel currentCard = new JLabel(cardLabel);</b>
+<b class="nc">&nbsp;        currentCard.setBounds(50, 50, 200, 100);</b>
+<b class="nc">&nbsp;        currentCard.setForeground(Color.BLACK);</b>
+<b class="nc">&nbsp;        currentCard.setFont(new Font(null, Font.BOLD, 30));</b>
+&nbsp;
+<b class="nc">&nbsp;        JPanel resultContentPanel = createUserBox();</b>
+<b class="nc">&nbsp;        resultContentPanel.add(currentCard);</b>
+&nbsp;
+<b class="nc">&nbsp;        setLayout(new FlowLayout(FlowLayout.CENTER));</b>
+<b class="nc">&nbsp;        add(upperPanel);</b>
+<b class="nc">&nbsp;        add(resultContentPanel);</b>
+<b class="nc">&nbsp;        setPreferredSize(new Dimension(AdminMainTemplate.adminPanelOptionsWidth,</b>
+&nbsp;                AdminMainTemplate.screenHeight));
+&nbsp;    }
+&nbsp;
+&nbsp;    protected JPanel createUserBox() {
+&nbsp;
+<b class="nc">&nbsp;        contentPanel = new JPanel();</b>
+<b class="nc">&nbsp;        contentPanel.setLayout(null);</b>
+&nbsp;
+<b class="nc">&nbsp;        contentPanel.setPreferredSize(new Dimension(AdminMainTemplate.adminPanelOptionsWidth,</b>
+&nbsp;                (int)(AdminMainTemplate.screenHeight * 0.9)));
+<b class="nc">&nbsp;        contentPanel.setBackground(Color.LIGHT_GRAY);</b>
+<b class="nc">&nbsp;        return contentPanel;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-09 23:03</div>
+</div>
+</body>
+</html>

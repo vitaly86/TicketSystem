@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ExecuteTB</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.utils.templates.db</a>
+</div>
+
+<h1>Coverage Summary for Class: ExecuteTB (org.utils.templates.db)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ExecuteTB</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (5/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.utils.templates.db;
+&nbsp;
+&nbsp;import org.mvc.model.UsersModel;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.sql.Statement;
+&nbsp;
+&nbsp;public class ExecuteTB extends DatabaseTemplate{
+&nbsp;
+&nbsp;    private final String[] queryTables;
+<b class="fc">&nbsp;    private final static UsersModel setInitAdmin = new UsersModel();</b>
+&nbsp;
+<b class="fc">&nbsp;    public ExecuteTB(String[] queryTables) {</b>
+<b class="fc">&nbsp;        this.queryTables = queryTables;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void executeSchema(@NotNull Statement stmt) throws SQLException {
+<b class="fc">&nbsp;        stmt.executeUpdate(queryTables[0]);</b>
+<b class="pc">&nbsp;        if (setInitAdmin.noInitSchema()) {</b>
+<b class="nc">&nbsp;            for (int i = 1; i &lt; queryTables.length; i++) {</b>
+<b class="nc">&nbsp;                stmt.executeUpdate(queryTables[i]);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            UsersModel.storeFirstAdmin();</b>
+<b class="nc">&nbsp;            System.out.println(&quot;All Tables created successfully!&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-09 23:03</div>
+</div>
+</body>
+</html>

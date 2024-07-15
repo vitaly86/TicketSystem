@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > RTemplate</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.utils.templates.CRUD</a>
+</div>
+
+<h1>Coverage Summary for Class: RTemplate (org.utils.templates.CRUD)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RTemplate</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    10.8%
+  </span>
+  <span class="absValue">
+    (4/37)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    27.6%
+  </span>
+  <span class="absValue">
+    (8/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.utils.templates.CRUD;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.HashMap;
+&nbsp;
+<b class="fc">&nbsp;public abstract class RTemplate {</b>
+&nbsp;
+&nbsp;    protected static final String DBURL = &quot;jdbc:mysql://localhost:3306/helpdesk&quot;;
+&nbsp;    protected static final String USER = &quot;root&quot;;
+&nbsp;    protected static final String PASS = &quot;&quot;;
+&nbsp;
+&nbsp;    public Object execute(String sql, String operation) {
+<b class="nc">&nbsp;        try (</b>
+<b class="fc">&nbsp;                Connection conn = getConnection();</b>
+<b class="fc">&nbsp;                Statement stmt = conn.createStatement();</b>
+<b class="fc">&nbsp;                ResultSet rs = stmt.executeQuery(sql);</b>
+&nbsp;        ) {
+<b class="pc">&nbsp;            switch (operation.toLowerCase()) {</b>
+&nbsp;                case &quot;no-admin&quot; -&gt; {
+<b class="fc">&nbsp;                    return initFirstAdmin(rs);</b>
+&nbsp;                }
+&nbsp;                case &quot;all-users&quot; -&gt; {
+<b class="nc">&nbsp;                    return findAllUsers(rs);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                case null, default -&gt; throw new IllegalArgumentException(&quot;Unknown Operation: &quot; + operation);</b>
+&nbsp;            }
+<b class="pc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (SQLException e){</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Object executePrepared(String sql, String operation, String @NotNull ... args) {
+<b class="nc">&nbsp;        try (</b>
+<b class="nc">&nbsp;                Connection conn = getConnection();</b>
+<b class="nc">&nbsp;                PreparedStatement pstmt = conn.prepareStatement(sql);</b>
+&nbsp;        ) {
+<b class="nc">&nbsp;            for(int i =0; i &lt; args.length; i++){</b>
+<b class="nc">&nbsp;                pstmt.setString(i+1, args[i]);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            switch (operation.toLowerCase()) {</b>
+&nbsp;                case &quot;user-pass&quot; -&gt; {
+<b class="nc">&nbsp;                    try(ResultSet rs = pstmt.executeQuery()){</b>
+<b class="nc">&nbsp;                        return checkUserExist(rs);</b>
+<b class="nc">&nbsp;                    } catch (SQLException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                case null, default -&gt; throw new IllegalArgumentException(&quot;Unknown Operation: &quot; + operation);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (SQLException e){</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Connection getConnection() throws SQLException{
+<b class="fc">&nbsp;        return DriverManager.getConnection(DBURL, USER, PASS);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected abstract int initFirstAdmin(ResultSet rs) throws SQLException;
+&nbsp;    protected abstract String checkUserExist(ResultSet rs) throws SQLException;
+&nbsp;    protected abstract HashMap&lt;String, String&gt; findAllUsers(ResultSet rs) throws SQLException;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-07-09 23:03</div>
+</div>
+</body>
+</html>
