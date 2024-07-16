@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class AdminMainTemplate extends JFrame{
@@ -177,95 +179,40 @@ public class AdminMainTemplate extends JFrame{
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    new SwingWorker<Void, Void>(){
+                    String[] optionsList = {"Dashboard", "Tickets", "Statuses", "Priorities", "Users", "User roles"};
 
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                            Thread.sleep(2000);
-                            return null;
+                    for(String option : optionsList){
+                        switch (option){
+                            case "Dashboard" -> new Thread(() -> backThread(menuCard, "Dashboard", MainGUIContainer.class)).start();
+                            case "Tickets" -> new Thread(() -> backThread(menuCard, "Tickets", MainGUIContainer.class)).start();
+                            case "Statuses" -> new Thread(() -> backThread(menuCard, "Statuses", MainGUIContainer.class)).start();
+                            case "Priorities" -> new Thread(() -> backThread(menuCard, "Priorities", MainGUIContainer.class)).start();
+                            case "Users" -> new Thread(() -> backThread(menuCard, "Users", UserCardDetails.class)).start();
+                            case "User roles" -> new Thread(() -> backThread(menuCard, "User roles", MainGUIContainer.class)).start();
                         }
+                    }
+                }
 
-                        @Override
-                        protected void done() {
-
-                            String[] optionsList = {"Dashboard", "Tickets", "Statuses", "Priorities", "Users", "User roles"};
-
-                            for(String option : optionsList){
-                                switch (option){
-                                    case "Dashboard" -> SwingUtilities.invokeLater(() -> {
-                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Dashboard")) {
-                                            mainContainer.remove(currentCardState);
-                                            try {
-                                                currentCardState = new MainGUIContainer("Dashboard");
-                                            } catch (IOException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                            mainContainer.add(currentCardState);
-                                        }
-                                    });
-                                    case "Tickets" -> SwingUtilities.invokeLater(() -> {
-                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Tickets")) {
-                                            mainContainer.remove(currentCardState);
-                                            try {
-                                                currentCardState = new MainGUIContainer("Tickets");
-                                            } catch (IOException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                            mainContainer.add(currentCardState);
-                                        }
-                                    });
-                                    case "Statuses" -> SwingUtilities.invokeLater(() -> {
-                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Statuses")) {
-                                            mainContainer.remove(currentCardState);
-                                            try {
-                                                currentCardState = new MainGUIContainer("Statuses");
-                                            } catch (IOException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                            mainContainer.add(currentCardState);
-                                        }
-                                    });
-                                    case "Priorities" -> SwingUtilities.invokeLater(() -> {
-                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Priorities")) {
-                                            mainContainer.remove(currentCardState);
-                                            try {
-                                                currentCardState = new MainGUIContainer("Priorities");
-                                            } catch (IOException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                            mainContainer.add(currentCardState);
-                                        }
-                                    });
-                                    case "Users" -> SwingUtilities.invokeLater(() -> {
-                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("Users")) {
-                                            mainContainer.remove(currentCardState);
-                                            try {
-                                                currentCardState = new UserCardDetails("Users");
-                                            } catch (IOException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                            mainContainer.add(currentCardState);
-                                        }
-                                    });
-                                    case "User roles" -> SwingUtilities.invokeLater(() -> {
-                                        if (((JLabel)menuCard.getComponent(0)).getText().equals("User roles")) {
-                                            mainContainer.remove(currentCardState);
-                                            try {
-                                                currentCardState = new MainGUIContainer("User roles");
-                                            } catch (IOException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                            mainContainer.add(currentCardState);
-
-                                        }
-                                    });
-                                }
-                            }
+                private <T> void backThread(@NotNull JPanel myCard, Object option, Class<T> clazz){
+                    if (((JLabel)myCard.getComponent(0)).getText().equals(option)) {
+                        mainContainer.remove(currentCardState);
+                        try {
+                            Constructor<T> constructor = clazz.getConstructor(option.getClass());
+                            currentCardState = (MainGUIContainer) constructor.newInstance(option);
+                        } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
+                                 NoSuchMethodException e) {
+                            throw new RuntimeException(e);
+                        }
+                        SwingUtilities.invokeLater(() ->{
+                            mainContainer.add(currentCardState);
                             mainContainer.revalidate();
                             mainContainer.repaint();
-                        }
-                    }.execute();
+                        });
+
+                    }
                 }
+
+
 
                 @Override
                 public void mouseEntered(MouseEvent e) {

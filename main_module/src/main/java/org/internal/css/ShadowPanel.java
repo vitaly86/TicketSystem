@@ -17,8 +17,6 @@ public class ShadowPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g.create();
 
         int shadowSize = 5;
-        int x = shadowSize;
-        int y = shadowSize;
         int w = getWidth() - shadowSize * 2;
         int h = getHeight() - shadowSize * 2;
 
@@ -27,7 +25,7 @@ public class ShadowPanel extends JPanel {
 
         // Draw shadow
         g2d.setColor(shadowColor);
-        g2d.fillRoundRect(x, y, w, h, 20, 20);
+        g2d.fillRoundRect(shadowSize, shadowSize, w, h, 20, 20);
 
         // Draw panel content
         g2d.setColor(getBackground());

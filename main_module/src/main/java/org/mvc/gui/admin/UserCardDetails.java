@@ -1,6 +1,7 @@
 package org.mvc.gui.admin;
 
 import org.app.utils.access.Icons;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.internal.css.ShadowPanel;
 import org.internal.html.HTMLButton;
@@ -11,10 +12,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static java.awt.Color.GRAY;
 
 public class UserCardDetails extends MainGUIContainer{
+
+    private static final JPanel userContainer = userContainer();
+    private static ArrayList<ShadowPanel> userCardsList = new ArrayList<>();
 
     public UserCardDetails(String cardLabel) throws IOException {
         super(cardLabel);
@@ -27,17 +32,7 @@ public class UserCardDetails extends MainGUIContainer{
         JButton createUserBTN = new HTMLButton("Create User", GRAY);
         createUserBTN.setBounds(AdminMainTemplate.adminPanelOptionsWidth - 170, 50, 120, 50);
 
-        JPanel userContainer = userContainer();
-
-        for(int i = 0; i < 20; i++){
-
-            /*
-              Box.createRigidArea(): adds vertical spacing between components in userContainer
-             */
-
-            userContainer.add(Box.createRigidArea(new Dimension(0, 10)));
-            userContainer.add(userCardContainer(i + 1 + ". " + "Admin" + i,"Admin"));
-        }
+        new UserContainerWorker().execute();
 
         JScrollPane scrollPane = getFastScrollPane(userContainer);
 
@@ -45,6 +40,42 @@ public class UserCardDetails extends MainGUIContainer{
         contentPanel.add(scrollPane);
 
         return contentPanel;
+    }
+
+    private static class UserContainerWorker extends SwingWorker<ArrayList<ShadowPanel>, Void> {
+
+        @Contract(pure = true)
+        @Override
+        protected @NotNull ArrayList<ShadowPanel> doInBackground() throws Exception {
+            ArrayList<ShadowPanel> userCardsAux = new ArrayList<>();
+            for(int i = 0; i < 20; i++){
+                userCardsAux.add(userCardContainer(i + 1 + ". " + "Admin" + i,"Admin"));
+            }
+            return userCardsAux;
+        }
+
+        @Override
+        protected void done() {
+            try{
+                userCardsList = get();
+
+                for(ShadowPanel userCardItem: userCardsList){
+
+                    /*
+                    Box.createRigidArea(): adds vertical spacing between components in userContainer
+                    */
+
+                    SwingUtilities.invokeLater(() -> {
+                        userContainer.add(Box.createRigidArea(new Dimension(0, 10)));
+                        userContainer.add(userCardItem);
+                        userContainer.revalidate();
+                        userContainer.repaint();
+                    });
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private static @NotNull JScrollPane getFastScrollPane(JPanel userContainer) {
@@ -71,7 +102,7 @@ public class UserCardDetails extends MainGUIContainer{
         return userInfos;
     }
 
-    private static @NotNull ShadowPanel userCardContainer(String userID, String userRole) throws IOException {
+    private static @NotNull ShadowPanel userCardContainer(String userID, String userRole) {
         ShadowPanel userCard = new ShadowPanel();
         userCard.setLayout(new GridLayout(1, 2));
         userCard.setPreferredSize(new Dimension(AdminMainTemplate.adminPanelOptionsWidth - 120, 100));
@@ -121,6 +152,7 @@ public class UserCardDetails extends MainGUIContainer{
 
         return userCard;
     }
+
 
     private static @NotNull JButton getBorderButton(ImageIcon editUserIcon) {
         JButton editUserBTN = new JButton(editUserIcon);
